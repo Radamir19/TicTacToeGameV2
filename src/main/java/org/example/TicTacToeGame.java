@@ -25,25 +25,41 @@ public class TicTacToeGame {
 
     public static void main(String[] args) {
         play();
-    }private static void play (){
+    }private static void play () {
+    while(true) {
         chooseTheDot();
         playRound();
-        System.out.printf("SCORE : HUMAN   PC\n" + "%d         %d\n", scoreHuman,scorePc);
-        System.out.print("Wanna play again? Y or N >>> ");
-        if(!sc.next().toLowerCase().equals("y")){
+        System.out.printf("SCORE: HUMAN   PC\n" + "     %d    %d\n", scoreHuman, scorePc);
+
+        if (!sc.next().toLowerCase().equals("y")) {
             System.out.println("Good Bye");
+            break;
         }
     }
 
+    }
+
+
     private static void playRound(){
         System.out.printf("ROUND %d START\n", ++roundCounter);
-        initField(5,5);
+        initField(3,3);
         printField();
-        humanFirstTurn();
+        if(dotHuman== dot_x){
+            humanFirstTurn();
+        } else {
+            pcFirstTurn();
+        }
     }
 
     private static void pcFirstTurn(){
-
+        while(true) {
+            pcTurn();
+            printField();
+            if(checkWin(dotPc)) break;
+            humanTurn();
+            printField();
+            if(checkDraw(dotHuman)) break;
+        }
     }
 
     private static void humanFirstTurn(){
@@ -103,32 +119,21 @@ public class TicTacToeGame {
         field[y][x] = dotPc;
     }
 
-    private static boolean checkWin(char playerDot){
-        int hor, ver;
-        for (int i = 0; i < field.length; i++) {
-            hor = 0;
-            ver = 0;
-            for (int j = 0; j < field.length; j++) {
-                if (field[i][j] == playerDot) {
-                    hor++;
-                } else if (field[i][j] != playerDot && hor < DOTS_TO_WIN) {
-                    hor = 0;
-                }
-                if (field[j][i] == playerDot) {
-                    ver++;
-                }   else if (field[j][i] != playerDot && ver < DOTS_TO_WIN) {
-                    ver = 0;
-                }
-            }
-            if (hor >= DOTS_TO_WIN || ver >= DOTS_TO_WIN) {
-                System.out.println("По горизонтали или вертикали " + hor + " " + ver);
+    private static boolean checkWin(char dot){
+        //hor
+        for (int i = 0; i < 3; i++)
+            if ((field[i][0] == dot && field[i][1] == dot &&
+                    field[i][2] == dot) ||
+                    (field[0][i] == dot && field[1][i] == dot &&
+                            field[2][i] == dot))
                 return true;
-            }
-        }
-
-
-    return true;
-
+        //ver
+            if ((field[0][0] == dot && field[1][1] == dot &&
+                field[2][2] == dot) ||
+                (field[2][0] == dot && field[1][1] == dot &&
+                        field[0][2] == dot))
+            return true;
+        return false;
     }
 
     private static boolean checkDraw(char dotPc) {
