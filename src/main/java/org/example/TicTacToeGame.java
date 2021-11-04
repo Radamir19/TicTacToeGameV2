@@ -120,7 +120,7 @@ public class TicTacToeGame {
     }
 
     private static boolean checkWin(char dot){
-        //horizontal
+        //hor
         for (int i = 0; i < 3; i++)
             if ((field[i][0] == dot && field[i][1] == dot &&
                     field[i][2] == dot) ||
